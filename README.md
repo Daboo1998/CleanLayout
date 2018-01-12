@@ -24,3 +24,6 @@ viewOne.height |-| (viewOne.width * 0.71)
 * [UIView].[width/height] |-| [constant]
 * [UIView].[width/height] |-| [UIView].[width/height]
 * [UIView].[width/height] |-| ([UIView].[width/height] * [multiplier])
+
+### It's only that simple! 
+Wish you happy and stress free coding :-)
