@@ -1,5 +1,5 @@
-<h1> Clean Layout </h1>
-<h3> The cleanest layout possible. Ever. </h
+# Clean Layout
+### The cleanest layout possible. Ever.
 
 With clean leayout you can change this:
 
