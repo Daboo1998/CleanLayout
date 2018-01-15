@@ -94,14 +94,6 @@ public func *(lhs: NSLayoutDimension, rhs: CGFloat) -> (NSLayoutDimension, CGFlo
     return constraint
 }
 
-
-// commentTextWrapper.width = self.width * 0.61
-// commentTextWrapper.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.61).isActive = true
-// NSLayoutDimension = NSLayoutDimension * CGFloat
-// (NSLayoutDimension = NSLayoutDimension) -> (NSLayoutDimension, NSLayoutDimension)
-// result = (NSLayoutDimension, NSLayoutDimension)
-// (NSLayoutDimension, NSLayoutDimension) * 0.91
-
 public enum CLAnchor {
     case top
     case bottom
