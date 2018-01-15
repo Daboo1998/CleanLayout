@@ -68,12 +68,21 @@ And that's it!
 
 The framework is automagically added as a target dependency, linked framework and embedded framework in a copy files build phase which is all you need to build on the simulator and a device.
 
+## Usage
+
+Use the below format:
+
 ##### Clean Layout format:
 * [UIView].[top/bottom/centerY] |- [constant] -| [UIView].[top/bottom/centerY]
 * [UIView].[left/right/centerX] |- [constant] -| [UIView].[left/right/centerX]
 * [UIView].[width/height] |-| [constant]
 * [UIView].[width/height] |-| [UIView].[width/height]
 * [UIView].[width/height] |-| ([UIView].[width/height] * [multiplier])
+
+##### Example
+```swift
+viewOne.top |- 10 -| viewTwo.top
+```
 
 ### It's only that simple! 
 Wish you happy and stress free coding :-)
