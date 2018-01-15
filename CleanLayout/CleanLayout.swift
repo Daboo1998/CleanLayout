@@ -201,6 +201,18 @@ public extension UIView {
     }
 }
 
+public extension NSLayoutConstraint {
+    
+    func activate() {
+        self.isActive = true
+    }
+    
+    func deactivate() {
+        self.isActive = false
+    }
+    
+}
+
 public extension UILayoutGuide {
     public var top: NSLayoutYAxisAnchor {
         get {
