@@ -19,6 +19,10 @@ constraint.isActive = true
 ...
 
 constraint.isActive = false
+
+...
+
+constraint.isActive = true
 ```
 
 into this:
@@ -33,7 +37,11 @@ let constraint = (viewOne.top |- 10 -| viewTwo.top)
 
 ...
 
-constraint.isActive = false
+constraint.deactivate()
+
+...
+
+constraint.activate()
 
 ```
 ## Installation
