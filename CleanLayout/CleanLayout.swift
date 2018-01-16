@@ -67,6 +67,7 @@ infix operator -| : AnchorRightSide
     case .lessOrEqual:
         constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
     }
+    constraint.isActive = true
     
     return constraint
 }
@@ -86,6 +87,7 @@ infix operator -| : AnchorRightSide
     case .lessOrEqual:
         constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
     }
+    constraint.isActive = true
     
     return constraint
 }
