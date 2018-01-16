@@ -124,33 +124,6 @@ public func strech(_ viewone: UIView, with viewtwo: UIView) {
     viewone.bottomAnchor.constraint(equalTo: viewone.bottomAnchor).isActive = true
 }
 
-
-public func pin(_ viewOne: UIView, to anchor: CLAnchor, of viewTwo: UIView, constant: CGFloat) {
-    switch anchor {
-    case .top:
-        viewOne.topAnchor.constraint(equalTo: viewTwo.topAnchor, constant: constant).isActive = true
-    case .bottom:
-        viewOne.bottomAnchor.constraint(equalTo: viewTwo.bottomAnchor, constant: constant).isActive = true
-    case .left:
-        viewOne.leftAnchor.constraint(equalTo: viewTwo.leftAnchor, constant: constant).isActive = true
-    case .right:
-        viewOne.rightAnchor.constraint(equalTo: viewTwo.rightAnchor, constant: constant).isActive = true
-    }
-}
-
-public func pin(_ viewOne: UIView, to anchor: CLAnchor, of viewTwo: UIView) {
-    switch anchor {
-    case .top:
-        viewOne.topAnchor.constraint(equalTo: viewTwo.topAnchor).isActive = true
-    case .bottom:
-        viewOne.bottomAnchor.constraint(equalTo: viewTwo.bottomAnchor).isActive = true
-    case .left:
-        viewOne.leftAnchor.constraint(equalTo: viewTwo.leftAnchor).isActive = true
-    case .right:
-        viewOne.rightAnchor.constraint(equalTo: viewTwo.rightAnchor).isActive = true
-    }
-}
-
 public extension UIView {
     public var top: NSLayoutYAxisAnchor {
         get {
