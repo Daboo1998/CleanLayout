@@ -1,3 +1,7 @@
+<p align="center">
+<img height="260" src="web/CleanLayout_Logo.png" />
+</p>
+
 # Clean Layout
 ### The cleanest layout possible. Ever.
 
