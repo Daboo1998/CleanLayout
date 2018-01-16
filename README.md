@@ -7,6 +7,14 @@ With clean leayout you can change this:
 viewOne.topAnchor.constraint(equalTo: viewTwo.topAnchor, constant: 10).isActive = true
 viewOne.widthAnchor.constraint(equalToConstant: 10).isActive = true
 viewOne.heightAnchor.constraint(equalTo: viewOne.widthAnchor, multiplier: 0.71).isActive = true
+viewOne.leftAnchor.constraint(greaterThanOrEqualTo: viewTwo.rightAnchor, constant: 5).isActive = true
+
+let constraint: NSLayoutConstraint = viewOne.topAnchor.constraint(equalTo: viewTwo.topAnchor, constant: 10)
+constraint.isActive = true
+
+...
+
+constraint.isActive = false
 ```
 
 into this:
@@ -15,6 +23,14 @@ into this:
 viewOne.top |- 10 -| viewTwo.top
 viewOne.width |-| 10
 viewOne.height |-| (viewOne.width * 0.71)
+viewOne.left |- >=5 -| viewTwo.right
+
+let constraint = (viewOne.top |- 10 -| viewTwo.top)
+
+...
+
+constraint.isActive = false
+
 ```
 ## Installation
 
@@ -73,8 +89,8 @@ The framework is automagically added as a target dependency, linked framework an
 Use the below format:
 
 ##### Clean Layout format:
-* [UIView].[top/bottom/centerY] |- [constant] -| [UIView].[top/bottom/centerY]
-* [UIView].[left/right/centerX] |- [constant] -| [UIView].[left/right/centerX]
+* [UIView].[top/bottom/centerY] |- [optional: >=/<=][constant] -| [UIView].[top/bottom/centerY]
+* [UIView].[left/right/centerX] |- [optional: >=/<=][constant] -| [UIView].[left/right/centerX]
 * [UIView].[width/height] |-| [constant]
 * [UIView].[width/height] |-| [UIView].[width/height]
 * [UIView].[width/height] |-| ([UIView].[width/height] * [multiplier])
@@ -82,6 +98,7 @@ Use the below format:
 ##### Example
 ```swift
 viewOne.top |- 10 -| viewTwo.top
+viewOne.bottom |- >= 5 -| viewTwo.bottom
 ```
 
 ### It's only that simple! 
