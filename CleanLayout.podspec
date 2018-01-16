@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "CleanLayout"
-  s.version      = "v1.0-alpha"
+  s.version      = "v1.0"
   s.summary      = "The cleanest layout possible. Ever."
 
   # This description is used to generate tags and improve search results.
