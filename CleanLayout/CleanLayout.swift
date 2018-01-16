@@ -24,12 +24,30 @@
 
 import UIKit
 
+public struct CLFloat {
+    var equality: CLEquality
+    var value: CGFloat
+}
+
 precedencegroup AnchorRightSide {
     associativity: right
 }
+
 precedencegroup AnchorLeftSide {
     associativity: right
     higherThan: AnchorRightSide
+}
+
+prefix operator >=
+
+public prefix func >=(rhs: CGFloat) -> CLFloat {
+    return CLFloat(equality: .graterOrEqual, value: rhs)
+}
+
+prefix operator <=
+
+public prefix func <=(rhs: CGFloat) -> CLFloat {
+    return CLFloat(equality: .lessOrEqual, value: rhs)
 }
 
 infix operator -| : AnchorRightSide
@@ -40,22 +58,55 @@ infix operator -| : AnchorRightSide
     return constraint
 }
 
+@discardableResult public func -|(lhs: (CLFloat, NSLayoutXAxisAnchor), rhs: NSLayoutXAxisAnchor) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    
+    switch lhs.0.equality {
+    case .graterOrEqual:
+        constraint = lhs.1.constraint(greaterThanOrEqualTo: rhs, constant: lhs.0.value)
+    case .lessOrEqual:
+        constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
+    }
+    
+    return constraint
+}
+
 @discardableResult public func -|(lhs: (CGFloat, NSLayoutYAxisAnchor), rhs: NSLayoutYAxisAnchor) -> NSLayoutConstraint {
     let constraint = lhs.1.constraint(equalTo: rhs, constant: lhs.0)
     constraint.isActive = true
     return constraint
 }
 
+@discardableResult public func -|(lhs: (CLFloat, NSLayoutYAxisAnchor), rhs: NSLayoutYAxisAnchor) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    
+    switch lhs.0.equality {
+    case .graterOrEqual:
+        constraint = lhs.1.constraint(greaterThanOrEqualTo: rhs, constant: lhs.0.value)
+    case .lessOrEqual:
+        constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
+    }
+    
+    return constraint
+}
+
 infix operator |- : AnchorLeftSide
 
-@discardableResult public func |-(lhs: NSLayoutXAxisAnchor, rhs: CGFloat) -> (CGFloat, NSLayoutXAxisAnchor) {
+public func |-(lhs: NSLayoutXAxisAnchor, rhs: CGFloat) -> (CGFloat, NSLayoutXAxisAnchor) {
     return (rhs,lhs)
 }
 
-@discardableResult public func |-(lhs: NSLayoutYAxisAnchor, rhs: CGFloat) -> (CGFloat, NSLayoutYAxisAnchor) {
+public func |-(lhs: NSLayoutXAxisAnchor, rhs: CLFloat) -> (CLFloat, NSLayoutXAxisAnchor) {
     return (rhs,lhs)
 }
 
+public func |-(lhs: NSLayoutYAxisAnchor, rhs: CGFloat) -> (CGFloat, NSLayoutYAxisAnchor) {
+    return (rhs,lhs)
+}
+
+public func |-(lhs: NSLayoutYAxisAnchor, rhs: CLFloat) -> (CLFloat, NSLayoutYAxisAnchor) {
+    return (rhs,lhs)
+}
 
 infix operator |--| : AnchorLeftSide
 @discardableResult public func |--|(lhs: UIView, rhs: UIView) -> UIView {
@@ -106,22 +157,27 @@ public enum CLAxis {
     case xAxis
 }
 
+public enum CLEquality {
+    case graterOrEqual
+    case lessOrEqual
+}
+
 public func strech(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) {
     switch axis {
     case .xAxis:
-        viewone.leftAnchor.constraint(equalTo: viewone.leftAnchor).isActive = true
-        viewone.rightAnchor.constraint(equalTo: viewone.rightAnchor).isActive = true
+        viewone.left    |- 0 -|     viewtwo.left
+        viewone.right   |- 0 -|     viewtwo.right
     case .yAxis:
-        viewone.topAnchor.constraint(equalTo: viewone.topAnchor).isActive = true
-        viewone.bottomAnchor.constraint(equalTo: viewone.bottomAnchor).isActive = true
+        viewone.top     |- 0 -|     viewtwo.top
+        viewone.bottom  |- 0 -|     viewtwo.bottom
     }
 }
 
 public func strech(_ viewone: UIView, with viewtwo: UIView) {
-    viewone.leftAnchor.constraint(equalTo: viewone.leftAnchor).isActive = true
-    viewone.rightAnchor.constraint(equalTo: viewone.rightAnchor).isActive = true
-    viewone.topAnchor.constraint(equalTo: viewone.topAnchor).isActive = true
-    viewone.bottomAnchor.constraint(equalTo: viewone.bottomAnchor).isActive = true
+    viewone.left    |- 0 -|     viewtwo.left
+    viewone.right   |- 0 -|     viewtwo.right
+    viewone.top     |- 0 -|     viewtwo.top
+    viewone.bottom  |- 0 -|     viewtwo.bottom
 }
 
 public extension UIView {
@@ -235,4 +291,3 @@ public extension UILayoutGuide {
         }
     }
 }
-
