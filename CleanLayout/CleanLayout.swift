@@ -164,6 +164,11 @@ public enum CLEquality {
     case lessOrEqual
 }
 
+public enum CLAligning {
+    case horizontally
+    case vertically
+}
+
 public func strech(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) {
     switch axis {
     case .xAxis:
@@ -229,6 +234,22 @@ public extension UIView {
         get {
             return self.heightAnchor
         }
+    }
+}
+
+public extension UIView {
+    func center(with view: UIView, _ aligning: CLAligning) {
+        switch aligning {
+        case .horizontally:
+            self.centerX |- 0 -| view.centerX
+        case .vertically:
+            self.centerY |- 0 -| view.centerY
+        }
+    }
+    
+    func center(in view: UIView) {
+        self.centerX |- 0 -| view.centerX
+        self.centerY |- 0 -| view.centerY
     }
 }
 
