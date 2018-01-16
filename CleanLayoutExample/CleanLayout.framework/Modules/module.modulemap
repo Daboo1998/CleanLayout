@@ -1,0 +1,11 @@
+framework module CleanLayout {
+  umbrella header "CleanLayout.h"
+
+  export *
+  module * { export * }
+}
+
+module CleanLayout.Swift {
+    header "CleanLayout-Swift.h"
+    requires objc
+}
