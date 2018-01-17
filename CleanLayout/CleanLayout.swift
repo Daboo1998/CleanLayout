@@ -29,6 +29,16 @@ public struct CLFloat {
     var value: CGFloat
 }
 
+public struct CLSize {
+    var width: CGFloat
+    var height: CGFloat
+    
+    init(_ size: CGSize) {
+        self.width = size.width
+        self.height = size.height
+    }
+}
+
 precedencegroup AnchorRightSide {
     associativity: right
 }
@@ -229,6 +239,13 @@ public extension UIView {
         get {
             return self.heightAnchor
         }
+    }
+}
+
+public extension UIView {
+    func constraintSize(with size: CLSize) {
+        self.width |-| size.width
+        self.height |-| size.height
     }
 }
 
