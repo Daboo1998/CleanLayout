@@ -24,9 +24,44 @@
 
 import UIKit
 
+public struct CLSizeConstraint {
+    var width: NSLayoutConstraint
+    var height: NSLayoutConstraint
+    
+    func activate() {
+        width.activate()
+        height.activate()
+    }
+    
+    func deactivate() {
+        width.deactivate()
+        height.deactivate()
+    }
+}
+
 public struct CLFloat {
     var equality: CLEquality
     var value: CGFloat
+}
+
+public struct CLSize {
+    var width: CLFloat
+    var height: CLFloat
+    
+    public init(_ size: CGSize) {
+        self.width = CLFloat(equality: .equal, value: size.width)
+        self.height = CLFloat(equality: .equal, value: size.width)
+    }
+    
+    public init(width: CGFloat, height: CGFloat) {
+        self.width = CLFloat(equality: .equal, value: width)
+        self.height = CLFloat(equality: .equal, value: height)
+    }
+    
+    public init(width: CLFloat, heigh: CLFloat) {
+        self.width = width
+        self.height = heigh
+    }
 }
 
 precedencegroup AnchorRightSide {
@@ -66,6 +101,8 @@ infix operator -| : AnchorRightSide
         constraint = lhs.1.constraint(greaterThanOrEqualTo: rhs, constant: lhs.0.value)
     case .lessOrEqual:
         constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
+    case .equal:
+         constraint = lhs.1.constraint(equalTo: rhs, constant: lhs.0.value)
     }
     constraint.isActive = true
     
@@ -86,6 +123,8 @@ infix operator -| : AnchorRightSide
         constraint = lhs.1.constraint(greaterThanOrEqualTo: rhs, constant: lhs.0.value)
     case .lessOrEqual:
         constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
+    case .equal:
+       constraint = lhs.1.constraint(equalTo: rhs, constant: lhs.0.value)
     }
     constraint.isActive = true
     
@@ -162,6 +201,12 @@ public enum CLAxis {
 public enum CLEquality {
     case graterOrEqual
     case lessOrEqual
+    case equal
+}
+
+public enum CLAligning {
+    case horizontally
+    case vertically
 }
 
 public func strech(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) {
@@ -232,8 +277,61 @@ public extension UIView {
     }
 }
 
-public extension NSLayoutConstraint {
+public extension UIView {
+    func center(with view: UIView, _ aligning: CLAligning) {
+        switch aligning {
+        case .horizontally:
+            self.centerX |- 0 -| view.centerX
+        case .vertically:
+            self.centerY |- 0 -| view.centerY
+        }
+    }
     
+    func center(in view: UIView) {
+        self.centerX |- 0 -| view.centerX
+        self.centerY |- 0 -| view.centerY
+    }
+}
+
+public extension UIView {
+    
+    @discardableResult func constraintSize(width: CGFloat, height: CGFloat) -> CLSizeConstraint {
+        let widthConstraint = (self.width |-| width)
+        let heightConstraint = (self.height |-| height)
+        
+        return CLSizeConstraint(width: widthConstraint, height: heightConstraint)
+    }
+    
+    @discardableResult func constraintSize(with size: CLSize) -> CLSizeConstraint {
+        let widthConstraint: NSLayoutConstraint
+        let heightConstraint: NSLayoutConstraint
+        
+        switch size.height.equality {
+        case .equal:
+            heightConstraint = self.height.constraint(equalToConstant: size.height.value)
+        case .graterOrEqual:
+            heightConstraint = self.height.constraint(greaterThanOrEqualToConstant: size.height.value)
+        case .lessOrEqual:
+            heightConstraint = self.height.constraint(lessThanOrEqualToConstant: size.height.value)
+        }
+        
+        switch size.width.equality {
+        case .equal:
+            widthConstraint = self.width.constraint(equalToConstant: size.width.value)
+        case .graterOrEqual:
+            widthConstraint = self.width.constraint(greaterThanOrEqualToConstant: size.width.value)
+        case .lessOrEqual:
+            widthConstraint = self.width.constraint(lessThanOrEqualToConstant: size.width.value)
+        }
+        
+        widthConstraint.activate()
+        heightConstraint.activate()
+
+        return CLSizeConstraint(width: widthConstraint, height: heightConstraint)
+    }
+}
+
+public extension NSLayoutConstraint {
     func activate() {
         self.isActive = true
     }
@@ -241,7 +339,6 @@ public extension NSLayoutConstraint {
     func deactivate() {
         self.isActive = false
     }
-    
 }
 
 public extension UILayoutGuide {
