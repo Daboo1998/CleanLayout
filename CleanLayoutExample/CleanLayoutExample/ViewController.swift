@@ -109,9 +109,7 @@ class ViewController: UIViewController {
         viewFive.right |- 0 -| self.view.right
         
         centerView.center(in: self.view)
-        centerView.width |-| 50
-        centerView.height |-| 50
-        
+        centerView.constraintSize(width: 50, height: 50)
     }
     
     
