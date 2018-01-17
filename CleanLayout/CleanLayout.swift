@@ -48,17 +48,17 @@ public struct CLSize {
     var width: CLFloat
     var height: CLFloat
     
-    init(_ size: CGSize) {
+    public init(_ size: CGSize) {
         self.width = CLFloat(equality: .equal, value: size.width)
         self.height = CLFloat(equality: .equal, value: size.width)
     }
     
-    init(width: CGFloat, height: CGFloat) {
+    public init(width: CGFloat, height: CGFloat) {
         self.width = CLFloat(equality: .equal, value: width)
         self.height = CLFloat(equality: .equal, value: height)
     }
     
-    init(width: CLFloat, heigh: CLFloat) {
+    public init(width: CLFloat, heigh: CLFloat) {
         self.width = width
         self.height = heigh
     }
