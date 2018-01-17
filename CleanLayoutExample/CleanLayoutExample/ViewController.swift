@@ -61,6 +61,12 @@ class ViewController: UIViewController {
         return view
     }()
     
+    let centerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .magenta
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -69,12 +75,14 @@ class ViewController: UIViewController {
         self.view.addSubview(viewThree)
         self.view.addSubview(viewFour)
         self.view.addSubview(viewFive)
+        self.view.addSubview(centerView)
         
         viewOne.translatesAutoresizingMaskIntoConstraints = false
         viewTwo.translatesAutoresizingMaskIntoConstraints = false
         viewThree.translatesAutoresizingMaskIntoConstraints = false
         viewFour.translatesAutoresizingMaskIntoConstraints = false
         viewFive.translatesAutoresizingMaskIntoConstraints = false
+        centerView.translatesAutoresizingMaskIntoConstraints = false
         
         viewOne.width |-| self.view.width
         viewOne.top |- 0 -| self.view.top
@@ -92,7 +100,7 @@ class ViewController: UIViewController {
         
         viewFour.height |-| 70
         viewFour.width |-| (viewFour.height * aspectRatio)
-        viewFour.centerX |- 0 -| viewThree.centerX
+        viewFour.center(with: viewThree, .horizontally)
         viewFour.centerY |- 0 -| viewThree.top
         
         viewFive.height |-| 150
@@ -100,13 +108,9 @@ class ViewController: UIViewController {
         viewFive.centerY |- 0 -| self.view.safeAreaLayoutGuide.centerY
         viewFive.right |- 0 -| self.view.right
         
-        viewOne.topAnchor.constraint(equalTo: viewTwo.topAnchor, constant: 10).isActive = true
-        viewOne.widthAnchor.constraint(equalToConstant: 10).isActive = true
-        viewOne.heightAnchor.constraint(equalTo: viewOne.widthAnchor, multiplier: 0.71).isActive = true
-        
-        viewOne.top |- 10 -| viewTwo.top
-        viewOne.width |-| 10
-        viewOne.height |-| (viewOne.width * 0.71)
+        centerView.center(in: self.view)
+        centerView.width |-| 50
+        centerView.height |-| 50
         
     }
     
@@ -119,9 +123,9 @@ class ViewController: UIViewController {
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         if UIDevice.current.orientation.isLandscape {
-            constraint.isActive = false
+            constraint.deactivate()
         } else {
-            constraint.isActive = true
+            constraint.activate()
         }
     }
 
