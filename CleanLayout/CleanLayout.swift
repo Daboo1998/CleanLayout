@@ -39,7 +39,7 @@ public struct CLSizeConstraint {
     }
 }
 
-public struct CLStretchedConstraint {
+public struct CLStrechedConstraint {
     public internal(set) var top: NSLayoutConstraint?
     public internal(set) var bottom: NSLayoutConstraint?
     public internal(set) var left: NSLayoutConstraint?
