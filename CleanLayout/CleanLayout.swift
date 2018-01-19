@@ -372,6 +372,34 @@ public extension UIView {
     }
 }
 
+public extension UIView {
+    public func stretch(with view: UIView, in axis: CLAxis) -> CLStrechedConstraint {
+        var constraint = CLStrechedConstraint()
+        
+        switch axis {
+        case .xAxis:
+            constraint.left = (self.left |- 0 -| view.left)
+            constraint.right = (self.right |- 0 -| view.right)
+        case .yAxis:
+            constraint.top = (self.top |- 0 -| view.top)
+            constraint.bottom = (self.bottom |- 0 -| view.bottom)
+        }
+        
+        return constraint
+    }
+    
+    public func stretch(in view: UIView) -> CLStrechedConstraint {
+        var constraint = CLStrechedConstraint()
+        
+        constraint.left = (self.left |- 0 -| view.left)
+        constraint.right = (self.right |- 0 -| view.right)
+        constraint.top = (self.top |- 0 -| view.top)
+        constraint.bottom = (self.bottom |- 0 -| view.bottom)
+        
+        return constraint
+    }
+}
+
 public extension NSLayoutConstraint {
     func activate() {
         self.isActive = true
