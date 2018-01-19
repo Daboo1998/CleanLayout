@@ -357,7 +357,7 @@ public extension UIView {
 }
 
 public extension UIView {
-    public func stretch(with view: UIView, in axis: CLAxis) -> CLStrechedConstraint {
+    @discardableResult public func stretch(with view: UIView, in axis: CLAxis) -> CLStrechedConstraint {
         var constraint = CLStrechedConstraint()
         
         switch axis {
@@ -372,7 +372,7 @@ public extension UIView {
         return constraint
     }
     
-    public func stretch(in view: UIView) -> CLStrechedConstraint {
+    @discardableResult public func stretch(in view: UIView) -> CLStrechedConstraint {
         var constraint = CLStrechedConstraint()
         
         constraint.left = (self.left |- 0 -| view.left)

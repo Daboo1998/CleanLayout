@@ -47,7 +47,7 @@ class ExamplesViewController: UIViewController {
     
     func setupTableViewConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        strech(tableView, with: self.view)
+        tableView.stretch(in: self.view)
     }
 
 }
