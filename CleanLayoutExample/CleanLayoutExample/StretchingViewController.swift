@@ -62,7 +62,7 @@ class StretchingViewController: UIViewController {
     }
     
     @objc private func strechAction(sender: UIButton) {
-        strech(exampleView, with: self.view)
+        exampleView.stretch(in: self.view)
         sender.isEnabled = false
         sender.setTitle("Streched", for: .normal)
     }
