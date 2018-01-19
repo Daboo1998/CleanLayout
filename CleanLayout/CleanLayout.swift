@@ -25,23 +25,44 @@
 import UIKit
 
 public struct CLSizeConstraint {
-    var width: NSLayoutConstraint
-    var height: NSLayoutConstraint
+    public fileprivate(set) var width: NSLayoutConstraint
+    public fileprivate(set) var height: NSLayoutConstraint
     
-    func activate() {
+    public func activate() {
         width.activate()
         height.activate()
     }
     
-    func deactivate() {
+    public func deactivate() {
         width.deactivate()
         height.deactivate()
     }
 }
 
+public struct CLStrechedConstraint {
+    public fileprivate(set) var top: NSLayoutConstraint?
+    public fileprivate(set) var bottom: NSLayoutConstraint?
+    public fileprivate(set) var left: NSLayoutConstraint?
+    public fileprivate(set) var right: NSLayoutConstraint?
+    
+    public func activate() {
+        top?.activate()
+        bottom?.activate()
+        left?.activate()
+        right?.activate()
+    }
+    
+    public func deactivate() {
+        top?.deactivate()
+        bottom?.deactivate()
+        left?.deactivate()
+        right?.deactivate()
+    }
+}
+
 public struct CLFloat {
-    var equality: CLEquality
-    var value: CGFloat
+    public var equality: CLEquality
+    public var value: CGFloat
 }
 
 public struct CLSize {
@@ -176,6 +197,22 @@ infix operator |-| : DimensionPrecedence
     return constraint
 }
 
+@discardableResult public func |-|(lhs: NSLayoutDimension, rhs: CLFloat) -> NSLayoutConstraint {
+    let constraint: NSLayoutConstraint
+    
+    switch rhs.equality {
+    case .equal:
+        constraint = lhs.constraint(equalToConstant: rhs.value)
+    case .graterOrEqual:
+        constraint = lhs.constraint(greaterThanOrEqualToConstant: rhs.value)
+    case .lessOrEqual:
+        constraint = lhs.constraint(lessThanOrEqualToConstant: rhs.value)
+    }
+    
+    constraint.activate()
+    return constraint
+}
+
 public func *(lhs: NSLayoutDimension, rhs: CGFloat) -> (NSLayoutDimension, CGFloat) {
     return (lhs, rhs)
 }
@@ -209,22 +246,26 @@ public enum CLAligning {
     case vertically
 }
 
-public func strech(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) {
+public func stretch(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) {
+    var constraint = CLStrechedConstraint()
+    
     switch axis {
     case .xAxis:
-        viewone.left    |- 0 -|     viewtwo.left
-        viewone.right   |- 0 -|     viewtwo.right
+        constraint.left = (viewone.left    |- 0 -|     viewtwo.left)
+        constraint.right = (viewone.right   |- 0 -|     viewtwo.right)
     case .yAxis:
-        viewone.top     |- 0 -|     viewtwo.top
-        viewone.bottom  |- 0 -|     viewtwo.bottom
+        constraint.top = (viewone.top     |- 0 -|     viewtwo.top)
+        constraint.bottom = (viewone.bottom  |- 0 -|     viewtwo.bottom)
     }
 }
 
-public func strech(_ viewone: UIView, with viewtwo: UIView) {
-    viewone.left    |- 0 -|     viewtwo.left
-    viewone.right   |- 0 -|     viewtwo.right
-    viewone.top     |- 0 -|     viewtwo.top
-    viewone.bottom  |- 0 -|     viewtwo.bottom
+public func stretch(_ viewone: UIView, with viewtwo: UIView) {
+    var constraint = CLStrechedConstraint()
+    
+    constraint.left     = (viewone.left    |- 0 -|     viewtwo.left)
+    constraint.right    = (viewone.right   |- 0 -|     viewtwo.right)
+    constraint.top      = (viewone.top     |- 0 -|     viewtwo.top)
+    constraint.bottom   = (viewone.bottom  |- 0 -|     viewtwo.bottom)
 }
 
 public extension UIView {
