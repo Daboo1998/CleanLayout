@@ -246,27 +246,11 @@ public enum CLAligning {
     case vertically
 }
 
-public func stretch(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) {
-    var constraint = CLStrechedConstraint()
-    
-    switch axis {
-    case .xAxis:
-        constraint.left = (viewone.left    |- 0 -|     viewtwo.left)
-        constraint.right = (viewone.right   |- 0 -|     viewtwo.right)
-    case .yAxis:
-        constraint.top = (viewone.top     |- 0 -|     viewtwo.top)
-        constraint.bottom = (viewone.bottom  |- 0 -|     viewtwo.bottom)
-    }
-}
+@available(*, unavailable, message: "Stretch functions where moved to UIView extension. Use view.stretch(with: UIView, in: CLAxis) instead.")
+public func stretch(_ viewone: UIView, with viewtwo: UIView, axis: CLAxis) { }
 
-public func stretch(_ viewone: UIView, with viewtwo: UIView) {
-    var constraint = CLStrechedConstraint()
-    
-    constraint.left     = (viewone.left    |- 0 -|     viewtwo.left)
-    constraint.right    = (viewone.right   |- 0 -|     viewtwo.right)
-    constraint.top      = (viewone.top     |- 0 -|     viewtwo.top)
-    constraint.bottom   = (viewone.bottom  |- 0 -|     viewtwo.bottom)
-}
+@available(*, unavailable, message: "Stretch functions where moved to UIView extension. Use view.stretch(in: UIView) instead.")
+public func stretch(_ viewone: UIView, with viewtwo: UIView) { }
 
 public extension UIView {
     public var top: NSLayoutYAxisAnchor {
@@ -369,6 +353,34 @@ public extension UIView {
         heightConstraint.activate()
 
         return CLSizeConstraint(width: widthConstraint, height: heightConstraint)
+    }
+}
+
+public extension UIView {
+    @discardableResult public func stretch(with view: UIView, in axis: CLAxis) -> CLStrechedConstraint {
+        var constraint = CLStrechedConstraint()
+        
+        switch axis {
+        case .xAxis:
+            constraint.left = (self.left |- 0 -| view.left)
+            constraint.right = (self.right |- 0 -| view.right)
+        case .yAxis:
+            constraint.top = (self.top |- 0 -| view.top)
+            constraint.bottom = (self.bottom |- 0 -| view.bottom)
+        }
+        
+        return constraint
+    }
+    
+    @discardableResult public func stretch(in view: UIView) -> CLStrechedConstraint {
+        var constraint = CLStrechedConstraint()
+        
+        constraint.left = (self.left |- 0 -| view.left)
+        constraint.right = (self.right |- 0 -| view.right)
+        constraint.top = (self.top |- 0 -| view.top)
+        constraint.bottom = (self.bottom |- 0 -| view.bottom)
+        
+        return constraint
     }
 }
 
