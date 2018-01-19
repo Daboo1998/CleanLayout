@@ -39,7 +39,7 @@ public struct CLSizeConstraint {
     }
 }
 
-public struct CLStrechedConstraint {
+public struct CLStretchedConstraint {
     public internal(set) var top: NSLayoutConstraint?
     public internal(set) var bottom: NSLayoutConstraint?
     public internal(set) var left: NSLayoutConstraint?
@@ -357,8 +357,8 @@ public extension UIView {
 }
 
 public extension UIView {
-    @discardableResult public func stretch(with view: UIView, in axis: CLAxis) -> CLStrechedConstraint {
-        var constraint = CLStrechedConstraint()
+    @discardableResult public func stretch(with view: UIView, in axis: CLAxis) -> CLStretchedConstraint {
+        var constraint = CLStretchedConstraint()
         
         switch axis {
         case .xAxis:
@@ -372,8 +372,8 @@ public extension UIView {
         return constraint
     }
     
-    @discardableResult public func stretch(in view: UIView) -> CLStrechedConstraint {
-        var constraint = CLStrechedConstraint()
+    @discardableResult public func stretch(in view: UIView) -> CLStretchedConstraint {
+        var constraint = CLStretchedConstraint()
         
         constraint.left = (self.left |- 0 -| view.left)
         constraint.right = (self.right |- 0 -| view.right)
