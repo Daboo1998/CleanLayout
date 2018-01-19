@@ -25,8 +25,8 @@
 import UIKit
 
 public struct CLSizeConstraint {
-    public fileprivate(set) var width: NSLayoutConstraint
-    public fileprivate(set) var height: NSLayoutConstraint
+    public internal(set) var width: NSLayoutConstraint
+    public internal(set) var height: NSLayoutConstraint
     
     public func activate() {
         width.activate()
@@ -40,10 +40,10 @@ public struct CLSizeConstraint {
 }
 
 public struct CLStrechedConstraint {
-    public fileprivate(set) var top: NSLayoutConstraint?
-    public fileprivate(set) var bottom: NSLayoutConstraint?
-    public fileprivate(set) var left: NSLayoutConstraint?
-    public fileprivate(set) var right: NSLayoutConstraint?
+    public internal(set) var top: NSLayoutConstraint?
+    public internal(set) var bottom: NSLayoutConstraint?
+    public internal(set) var left: NSLayoutConstraint?
+    public internal(set) var right: NSLayoutConstraint?
     
     public func activate() {
         top?.activate()
