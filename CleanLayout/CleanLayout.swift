@@ -61,7 +61,7 @@ public struct CLStretchedConstraint {
 }
 
 public struct CLFloat {
-    public var equality: CLEquality
+    public var relation: NSLayoutRelation
     public var value: CGFloat
 }
 
@@ -70,13 +70,13 @@ public struct CLSize {
     var height: CLFloat
     
     public init(_ size: CGSize) {
-        self.width = CLFloat(equality: .equal, value: size.width)
-        self.height = CLFloat(equality: .equal, value: size.width)
+        self.width = CLFloat(relation: .equal, value: size.width)
+        self.height = CLFloat(relation: .equal, value: size.width)
     }
     
     public init(width: CGFloat, height: CGFloat) {
-        self.width = CLFloat(equality: .equal, value: width)
-        self.height = CLFloat(equality: .equal, value: height)
+        self.width = CLFloat(relation: .equal, value: width)
+        self.height = CLFloat(relation: .equal, value: height)
     }
     
     public init(width: CLFloat, heigh: CLFloat) {
@@ -97,13 +97,13 @@ precedencegroup AnchorLeftSide {
 prefix operator >=
 
 public prefix func >=(rhs: CGFloat) -> CLFloat {
-    return CLFloat(equality: .graterOrEqual, value: rhs)
+    return CLFloat(relation: .greaterThanOrEqual, value: rhs)
 }
 
 prefix operator <=
 
 public prefix func <=(rhs: CGFloat) -> CLFloat {
-    return CLFloat(equality: .lessOrEqual, value: rhs)
+    return CLFloat(relation: .lessThanOrEqual, value: rhs)
 }
 
 infix operator -| : AnchorRightSide
@@ -117,10 +117,10 @@ infix operator -| : AnchorRightSide
 @discardableResult public func -|(lhs: (CLFloat, NSLayoutXAxisAnchor), rhs: NSLayoutXAxisAnchor) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     
-    switch lhs.0.equality {
-    case .graterOrEqual:
+    switch lhs.0.relation {
+    case .greaterThanOrEqual:
         constraint = lhs.1.constraint(greaterThanOrEqualTo: rhs, constant: lhs.0.value)
-    case .lessOrEqual:
+    case .lessThanOrEqual:
         constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
     case .equal:
          constraint = lhs.1.constraint(equalTo: rhs, constant: lhs.0.value)
@@ -139,10 +139,10 @@ infix operator -| : AnchorRightSide
 @discardableResult public func -|(lhs: (CLFloat, NSLayoutYAxisAnchor), rhs: NSLayoutYAxisAnchor) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     
-    switch lhs.0.equality {
-    case .graterOrEqual:
+    switch lhs.0.relation {
+    case .greaterThanOrEqual:
         constraint = lhs.1.constraint(greaterThanOrEqualTo: rhs, constant: lhs.0.value)
-    case .lessOrEqual:
+    case .lessThanOrEqual:
         constraint = lhs.1.constraint(lessThanOrEqualTo: rhs, constant: lhs.0.value)
     case .equal:
        constraint = lhs.1.constraint(equalTo: rhs, constant: lhs.0.value)
@@ -200,12 +200,12 @@ infix operator |-| : DimensionPrecedence
 @discardableResult public func |-|(lhs: NSLayoutDimension, rhs: CLFloat) -> NSLayoutConstraint {
     let constraint: NSLayoutConstraint
     
-    switch rhs.equality {
+    switch rhs.relation {
     case .equal:
         constraint = lhs.constraint(equalToConstant: rhs.value)
-    case .graterOrEqual:
+    case .greaterThanOrEqual:
         constraint = lhs.constraint(greaterThanOrEqualToConstant: rhs.value)
-    case .lessOrEqual:
+    case .lessThanOrEqual:
         constraint = lhs.constraint(lessThanOrEqualToConstant: rhs.value)
     }
     
@@ -233,12 +233,6 @@ public enum CLAnchor {
 public enum CLAxis {
     case yAxis
     case xAxis
-}
-
-public enum CLEquality {
-    case graterOrEqual
-    case lessOrEqual
-    case equal
 }
 
 public enum CLAligning {
@@ -331,21 +325,21 @@ public extension UIView {
         let widthConstraint: NSLayoutConstraint
         let heightConstraint: NSLayoutConstraint
         
-        switch size.height.equality {
+        switch size.height.relation {
         case .equal:
             heightConstraint = self.height.constraint(equalToConstant: size.height.value)
-        case .graterOrEqual:
+        case .greaterThanOrEqual:
             heightConstraint = self.height.constraint(greaterThanOrEqualToConstant: size.height.value)
-        case .lessOrEqual:
+        case .lessThanOrEqual:
             heightConstraint = self.height.constraint(lessThanOrEqualToConstant: size.height.value)
         }
         
-        switch size.width.equality {
+        switch size.width.relation {
         case .equal:
             widthConstraint = self.width.constraint(equalToConstant: size.width.value)
-        case .graterOrEqual:
+        case .greaterThanOrEqual:
             widthConstraint = self.width.constraint(greaterThanOrEqualToConstant: size.width.value)
-        case .lessOrEqual:
+        case .lessThanOrEqual:
             widthConstraint = self.width.constraint(lessThanOrEqualToConstant: size.width.value)
         }
         
